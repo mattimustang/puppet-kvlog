@@ -30,6 +30,10 @@ Installation & Usage
 
 3. Run the Puppet client and sync the report processor as a plugin.
 
+4. Sample syslog output:
+
+    May 30 07:07:51 domU-XX-XX-XX-XX-XX-XX puppet-master[23009]: node=domu-XX-XX-XX-XX-XX-XX.compute-1.internal, configuration_version=1338361671, status=unchanged, kind=apply, environment=production, report=metrics, config_retrieval_seconds=0.266196012496948, filebucket_seconds=0.000195, total_seconds=0.266391012496948, total_changes=0, changed_resources=0, failed_resources=0, failed_to_restart_resources=0, out_of_sync_resources=0, restarted_resources=0, scheduled_resources=0, skipped_resources=6, total_resources=7, failure_events=0, success_events=0, total_events=0
+
 Author
 ------
 
