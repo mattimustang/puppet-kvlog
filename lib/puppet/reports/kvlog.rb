@@ -1,5 +1,4 @@
 require 'puppet'
-require 'yaml'
 
 Puppet::Reports.register_report(:kvlog) do
 
@@ -9,8 +8,12 @@ Puppet::Reports.register_report(:kvlog) do
 
   def process
     Puppet.debug "Sending metrics for #{self.host} to syslog."
-    log = Puppet::Util::Log.create(:level => :info, :message => "", :source => self.host)
 
+    message = "node=#{self.host}"
+    message << ", configuration_version=#{self.configuration_version}"
+    message << ", kind=#{self.kind}"
+    message << ", environment=#{self.environment}"
+    message << ", report_type=metrics"
     self.metrics.each { |metric,data|
       data.values.each { |val|
         if metric == 'time'
@@ -18,11 +21,15 @@ Puppet::Reports.register_report(:kvlog) do
         else
           units = metric
         end
-        key = "#{val[0].downcase}_#{units}"
+        key = "#{val[0]}_#{units}"
         value = val[2]
-        log.message << ", #{key}=\"#{value}\""
+        # wrap string values with whitespace in quotes
+        if (value.respond_to?(:index) && value.index(/\s/))
+            value = "\"#{value}\""
+        end
+        message << ", #{key}=#{value}"
       }
     }
-    Puppet::Util::Log.newmessage(log)
+    Puppet::Util::Log.create(:level => :notice, :message => message)
   end
 end
