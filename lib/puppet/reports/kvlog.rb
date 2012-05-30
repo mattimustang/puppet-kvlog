@@ -11,6 +11,7 @@ Puppet::Reports.register_report(:kvlog) do
 
     message = "node=#{self.host}"
     message << ", configuration_version=#{self.configuration_version}"
+    message << ", status=#{self.status}"
     message << ", kind=#{self.kind}"
     message << ", environment=#{self.environment}"
     message << ", report_type=metrics"
